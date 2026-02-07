@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        EncryptionAlgorithm algorithm = new CaesarCipher(56);
+        EncryptionAlgorithm algorithm = new XORCipher();
 
         while (true) {
             System.out.print("\nEncrypt (e), decrypt (d), or quit (q)?: ");
