@@ -6,6 +6,9 @@ import java.util.Base64;
 public class XORCipher implements EncryptionAlgorithm<Byte[]> {
     @Override
     public Message encrypt(Message plaintext, Byte[] key) {
+        if (plaintext.isEncrypted())
+            throw new IllegalArgumentException("The message is already encrypted.");
+
         byte[] textBytes = plaintext.toString().getBytes();
         byte[] encrypted = new byte[textBytes.length];
 
@@ -20,6 +23,9 @@ public class XORCipher implements EncryptionAlgorithm<Byte[]> {
 
     @Override
     public Message decrypt(Message ciphertext, Byte[] key) {
+        if (!ciphertext.isEncrypted())
+            throw new IllegalArgumentException("The message is already decrypted.");
+
         byte[] encryptedBytes = Base64.getDecoder().decode(ciphertext.toString());
         byte[] decrypted = new byte[encryptedBytes.length];
 

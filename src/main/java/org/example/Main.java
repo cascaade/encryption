@@ -19,22 +19,30 @@ public class Main {
             String option = scanner.nextLine();
             if (option.equals("e")) {
                 System.out.print("Enter a message: ");
-
                 String input = scanner.nextLine();
-                Message result = algorithm.encrypt(new Message(input, false), xorKey);
 
-                System.out.print(input);
-                System.out.print(" >> [encryption] >> ");
-                System.out.println(result);
+                try {
+                    Message result = algorithm.encrypt(new Message(input, false), xorKey);
+
+                    System.out.print(input);
+                    System.out.print(" >> [encryption] >> ");
+                    System.out.println(result);
+                } catch (Exception e) {
+                    System.out.println("Input could not be encoded.");
+                }
             } else if (option.equals("d")) {
                 System.out.print("Enter a message: ");
-
                 String input = scanner.nextLine();
-                Message result = algorithm.decrypt(new Message(input, true), xorKey);
 
-                System.out.print(input);
-                System.out.print(" >> [decryption] >> ");
-                System.out.println(result);
+                try {
+                    Message result = algorithm.decrypt(new Message(input, true), xorKey);
+
+                    System.out.print(input);
+                    System.out.print(" >> [decryption] >> ");
+                    System.out.println(result);
+                } catch (Exception e) {
+                    System.out.println("Input could not be decoded.");
+                }
             } else if (option.equals("q")) {
                 System.out.println("bye :(");
                 break;

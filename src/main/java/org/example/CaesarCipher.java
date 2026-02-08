@@ -5,6 +5,9 @@ public class CaesarCipher implements EncryptionAlgorithm<Integer> {
 
     @Override
     public Message encrypt(Message plaintext, Integer key) {
+        if (plaintext.isEncrypted())
+            throw new IllegalArgumentException("The message is already encrypted.");
+
         int shift = key % max_value;
 
         String message = "";
@@ -17,6 +20,9 @@ public class CaesarCipher implements EncryptionAlgorithm<Integer> {
 
     @Override
     public Message decrypt(Message ciphertext, Integer key) {
+        if (!ciphertext.isEncrypted())
+            throw new IllegalArgumentException("The message is already decrypted.");
+
         int shift = key % max_value;
 
         String message = "";
