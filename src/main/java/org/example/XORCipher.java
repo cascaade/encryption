@@ -3,19 +3,9 @@ package org.example;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-public class XORCipher implements EncryptionAlgorithm {
-    private final byte[] key;
-
-    public XORCipher() {
-        key = new byte[32];
-
-        for (int i = 0; i < key.length; i++) {
-            key[i] = (byte) (Math.random() * Math.pow(2, 8));
-        }
-    }
-
+public class XORCipher implements EncryptionAlgorithm<Byte[]> {
     @Override
-    public Message encrypt(Message plaintext) {
+    public Message encrypt(Message plaintext, Byte[] key) {
         byte[] textBytes = plaintext.toString().getBytes();
         byte[] encrypted = new byte[textBytes.length];
 
@@ -29,7 +19,7 @@ public class XORCipher implements EncryptionAlgorithm {
     }
 
     @Override
-    public Message decrypt(Message ciphertext) {
+    public Message decrypt(Message ciphertext, Byte[] key) {
         byte[] encryptedBytes = Base64.getDecoder().decode(ciphertext.toString());
         byte[] decrypted = new byte[encryptedBytes.length];
 

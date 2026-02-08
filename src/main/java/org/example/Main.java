@@ -8,6 +8,12 @@ public class Main {
 
         EncryptionAlgorithm algorithm = new XORCipher();
 
+        Byte[] xorKey = new Byte[32];
+
+        for (int i = 0; i < xorKey.length; i++) {
+            xorKey[i] = (byte) (Math.random() * Math.pow(2, 8));
+        }
+
         while (true) {
             System.out.print("\nEncrypt (e), decrypt (d), or quit (q)?: ");
             String option = scanner.nextLine();
@@ -15,7 +21,7 @@ public class Main {
                 System.out.print("Enter a message: ");
 
                 String input = scanner.nextLine();
-                Message result = algorithm.encrypt(new Message(input, false));
+                Message result = algorithm.encrypt(new Message(input, false), xorKey);
 
                 System.out.print(input);
                 System.out.print(" >> [encryption] >> ");
@@ -24,7 +30,7 @@ public class Main {
                 System.out.print("Enter a message: ");
 
                 String input = scanner.nextLine();
-                Message result = algorithm.decrypt(new Message(input, true));
+                Message result = algorithm.decrypt(new Message(input, true), xorKey);
 
                 System.out.print(input);
                 System.out.print(" >> [decryption] >> ");
