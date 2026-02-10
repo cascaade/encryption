@@ -6,6 +6,16 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class ScrambleCipher implements EncryptionAlgorithm<Byte[]> {
+    public static byte[] createKey() {
+        byte[] key = new byte[16];
+
+        for (int i = 0; i < key.length; i++) {
+            key[i] = (byte) (Math.pow(2, 8) * Math.random());
+        }
+
+        return key;
+    }
+
     @Override
     public Message encrypt(Message plaintext, Byte[] key) {
         if (key.length != 16)
@@ -19,7 +29,7 @@ public class ScrambleCipher implements EncryptionAlgorithm<Byte[]> {
         byte[][] cipherBytes = new byte[4][4];
 
         for (int i = 0; i < bytes.length; i++) {
-            cipherBytes[i / 4][i % 4] = bytes[i];
+            cipherBytes[i / 4][i % 4] = (byte) (bytes[i] ^ key[i]);
         }
 
         byte[] outBytes = new byte[16];
