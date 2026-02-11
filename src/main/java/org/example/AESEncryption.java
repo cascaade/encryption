@@ -14,7 +14,13 @@ public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
     }
 
     private byte[][] ShiftRows(byte[][] state) {
-        return state;
+        byte[][] out = new byte[4][4];
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                out[row][col] = state[row][Math.floorMod(col + row, 4)];
+            }
+        }
+        return out;
     }
 
     private byte[][] MixColumns(byte[][] state) {

@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        EncryptionAlgorithm algorithm = new XORCipher();
+        EncryptionAlgorithm algorithm = new AESEncryption();
 
         Byte[] xorKey = new Byte[32];
 
