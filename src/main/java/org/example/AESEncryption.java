@@ -6,6 +6,11 @@ public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
     }
 
     private byte[][] AddRoundKey(byte[][] state, byte[][] roundKey) {
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                state[row][col] = (byte) (state[row][col] ^ roundKey[row][col]);
+            }
+        }
         return state;
     }
 
@@ -32,21 +37,21 @@ public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
         byte[][] state = new byte[][] {};
         byte[][] roundKey = new byte[][] {};
 
-        AddRoundKey(state, roundKey);
+        state = AddRoundKey(state, roundKey);
         roundKey = KeyExpansion(roundKey);
 
         for (int i = 0; i < 9; i++) {
-            SubBytes(state);
-            ShiftRows(state);
-            MixColumns(state);
-            AddRoundKey(state, roundKey);
+            state = SubBytes(state);
+            state = ShiftRows(state);
+            state = MixColumns(state);
+            state = AddRoundKey(state, roundKey);
 
             roundKey = KeyExpansion(roundKey);
         }
 
-        SubBytes(state);
-        ShiftRows(state);
-        AddRoundKey(state, roundKey);
+        state = SubBytes(state);
+        state = ShiftRows(state);
+        state = AddRoundKey(state, roundKey);
 
         return new Message("", true);
     }
