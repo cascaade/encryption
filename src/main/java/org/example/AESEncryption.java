@@ -23,6 +23,25 @@ public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
 
     @Override
     public Message encrypt(Message plaintext, Byte[] key) throws IllegalArgumentException {
+        byte[][] state = new byte[][] {};
+        byte[][] roundKey = new byte[][] {};
+
+        AddRoundKey(state, roundKey);
+        roundKey = KeyExpansion(roundKey);
+
+        for (int i = 0; i < 9; i++) {
+            SubBytes(state);
+            ShiftRows(state);
+            MixColumns(state);
+            AddRoundKey(state, roundKey);
+
+            roundKey = KeyExpansion(roundKey);
+        }
+
+        SubBytes(state);
+        ShiftRows(state);
+        AddRoundKey(state, roundKey);
+
         return new Message("", true);
     }
 
