@@ -1,35 +1,32 @@
 package org.example;
 
 public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
-    private byte[][] KeyExpansion(byte[][] key) {
-        return key;
+    private void KeyExpansion(byte[][] key, int round) {
+
     }
 
-    private byte[][] AddRoundKey(byte[][] state, byte[][] roundKey) {
+    private void AddRoundKey(byte[][] state, byte[][] roundKey) {
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
                 state[row][col] = (byte) (state[row][col] ^ roundKey[row][col]);
             }
         }
-        return state;
     }
 
-    private byte[][] SubBytes(byte[][] state) {
-        return state;
+    private void SubBytes(byte[][] state) {
+
     }
 
-    private byte[][] ShiftRows(byte[][] state) {
-        byte[][] out = new byte[4][4];
+    private void ShiftRows(byte[][] state) {
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
-                out[row][col] = state[row][Math.floorMod(col + row, 4)];
+                state[row][col] = state[row][Math.floorMod(col + row, 4)];
             }
         }
-        return out;
     }
 
-    private byte[][] MixColumns(byte[][] state) {
-        return state;
+    private void MixColumns(byte[][] state) {
+
     }
 
     @Override
@@ -37,21 +34,21 @@ public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
         byte[][] state = new byte[][] {};
         byte[][] roundKey = new byte[][] {};
 
-        state = AddRoundKey(state, roundKey);
-        roundKey = KeyExpansion(roundKey);
+        AddRoundKey(state, roundKey);
+        KeyExpansion(roundKey, 0);
 
         for (int i = 0; i < 9; i++) {
-            state = SubBytes(state);
-            state = ShiftRows(state);
-            state = MixColumns(state);
-            state = AddRoundKey(state, roundKey);
+            SubBytes(state);
+            ShiftRows(state);
+            MixColumns(state);
+            AddRoundKey(state, roundKey);
 
-            roundKey = KeyExpansion(roundKey);
+            KeyExpansion(roundKey, i + 1);
         }
 
-        state = SubBytes(state);
-        state = ShiftRows(state);
-        state = AddRoundKey(state, roundKey);
+        SubBytes(state);
+        ShiftRows(state);
+        AddRoundKey(state, roundKey);
 
         return new Message("", true);
     }
