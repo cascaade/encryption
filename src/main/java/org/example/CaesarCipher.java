@@ -32,4 +32,9 @@ public class CaesarCipher implements EncryptionAlgorithm<Integer> {
 
         return new Message(message, false);
     }
+
+    @Override
+    public Integer parsePassword(String passwordInput) {
+        return Integer.parseInt(passwordInput);
+    }
 }

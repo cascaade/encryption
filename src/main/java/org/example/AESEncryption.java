@@ -57,4 +57,9 @@ public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
     public Message decrypt(Message ciphertext, Byte[] key) throws IllegalArgumentException {
         return new Message("", false);
     }
+
+    @Override
+    public Byte[] parsePassword(String passwordInput) {
+        return new Byte[0];
+    }
 }

@@ -48,4 +48,9 @@ public class ScrambleCipher implements EncryptionAlgorithm<Byte[]> {
     public Message decrypt(Message ciphertext, Byte[] key) {
         return new Message("not yet implemented", false);
     }
+
+    @Override
+    public Byte[] parsePassword(String passwordInput) throws Exception {
+        return new Byte[0];
+    }
 }

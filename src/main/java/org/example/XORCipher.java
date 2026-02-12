@@ -37,4 +37,9 @@ public class XORCipher implements EncryptionAlgorithm<Byte[]> {
 
         return new Message(plaintext, false);
     }
+
+    @Override
+    public Byte[] parsePassword(String passwordInput) throws Exception {
+        return new Byte[0];
+    }
 }

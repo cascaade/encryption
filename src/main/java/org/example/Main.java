@@ -21,8 +21,11 @@ public class Main {
                 System.out.print("Enter a message: ");
                 String input = scanner.nextLine();
 
+                System.out.print("Enter a password: ");
+                String password = scanner.nextLine();
+
                 try {
-                    Message result = algorithm.encrypt(new Message(input, false), xorKey);
+                    Message result = algorithm.encrypt(new Message(input, false), algorithm.parsePassword(password));
 
                     System.out.print(input);
                     System.out.print(" >> [encryption] >> ");
@@ -34,8 +37,11 @@ public class Main {
                 System.out.print("Enter a message: ");
                 String input = scanner.nextLine();
 
+                System.out.print("Enter a password: ");
+                String password = scanner.nextLine();
+
                 try {
-                    Message result = algorithm.decrypt(new Message(input, true), xorKey);
+                    Message result = algorithm.decrypt(new Message(input, true), algorithm.parsePassword(password));
 
                     System.out.print(input);
                     System.out.print(" >> [decryption] >> ");
