@@ -25,6 +25,9 @@ public class AESEncryptionViaLibrary implements EncryptionAlgorithm<SecretKey> {
 
     @Override
     public Message encrypt(Message plaintext, SecretKey key) throws Exception {
+        if (plaintext.isEncrypted())
+            throw new IllegalArgumentException("The message is already encrypted.");
+
         byte[] iv = new byte[GCM_IV_LENGTH];
         new SecureRandom().nextBytes(iv);
 
@@ -40,6 +43,9 @@ public class AESEncryptionViaLibrary implements EncryptionAlgorithm<SecretKey> {
 
     @Override
     public Message decrypt(Message ciphertext, SecretKey secretKey) throws Exception {
+        if (!ciphertext.isEncrypted())
+            throw new IllegalArgumentException("The message is already decrypted.");
+
         byte[] iv = ciphertext.getIV();
 
         if (iv.length != GCM_IV_LENGTH)

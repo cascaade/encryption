@@ -31,6 +31,9 @@ public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
 
     @Override
     public Message encrypt(Message plaintext, Byte[] key) throws IllegalArgumentException {
+        if (plaintext.isEncrypted())
+            throw new IllegalArgumentException("The message is already encrypted.");
+
         byte[][] state = new byte[][] {};
         byte[][] roundKey = new byte[][] {};
 
@@ -55,6 +58,9 @@ public class AESEncryption implements EncryptionAlgorithm<Byte[]> {
 
     @Override
     public Message decrypt(Message ciphertext, Byte[] key) throws IllegalArgumentException {
+        if (!ciphertext.isEncrypted())
+            throw new IllegalArgumentException("The message is already decrypted.");
+
         return new Message("", false);
     }
 

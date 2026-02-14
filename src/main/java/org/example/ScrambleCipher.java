@@ -18,6 +18,9 @@ public class ScrambleCipher implements EncryptionAlgorithm<Byte[]> {
 
     @Override
     public Message encrypt(Message plaintext, Byte[] key) {
+        if (plaintext.isEncrypted())
+            throw new IllegalArgumentException("The message is already encrypted.");
+
         if (key.length != 16)
             throw new IllegalArgumentException("Unacceptable number of key bytes");
 
@@ -46,6 +49,9 @@ public class ScrambleCipher implements EncryptionAlgorithm<Byte[]> {
 
     @Override
     public Message decrypt(Message ciphertext, Byte[] key) {
+        if (!ciphertext.isEncrypted())
+            throw new IllegalArgumentException("The message is already decrypted.");
+
         return new Message("not yet implemented", false);
     }
 
