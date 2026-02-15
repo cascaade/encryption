@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -14,40 +15,87 @@ public class Main {
             xorKey[i] = (byte) (Math.random() * Math.pow(2, 8));
         }
 
+        ArrayList<Message> messageList = new ArrayList<>();
+
         while (true) {
             System.out.print("\nEncrypt (e), decrypt (d), or quit (q)?: ");
             String option = scanner.nextLine();
+
             if (option.equals("e")) {
-                System.out.print("Enter a message: ");
-                String input = scanner.nextLine();
+                for (int i = 0; i < messageList.size(); i++) {
+                    Message message = messageList.get(i);
+                    System.out.print("[" + i + "]: ");
+                    System.out.print(message.isEncrypted() ? "crypt" : "plain");
+                    System.out.print("@" + message.hashCode());
+                    System.out.println(" - " + message);
+                }
+
+                System.out.print("Enter a message or reference number (m0, m1, etc.): ");
+                Message inputMsg = new Message(scanner.nextLine(), false);
+                int referenceUsed = -1;
+
+                try {
+                    int n = Integer.parseInt(inputMsg.toString().substring(1));
+                    if (n >= 0 && n < messageList.size() && inputMsg.toString().charAt(0) == 'm') {
+                        inputMsg = messageList.get(n);
+                        referenceUsed = n;
+                    }
+                } catch (Exception e) {
+
+                }
 
                 System.out.print("Enter a password: ");
                 String password = scanner.nextLine();
 
                 try {
-                    Message result = algorithm.encrypt(new Message(input, false), algorithm.parsePassword(password));
+                    Message result = algorithm.encrypt(inputMsg, algorithm.parsePassword(password));
 
-                    System.out.print(input);
+                    System.out.print((referenceUsed >= 0 ? "[m" + referenceUsed + "]: " : "") + inputMsg);
                     System.out.print(" >> [encryption] >> ");
                     System.out.println(result);
+
+                    if (referenceUsed < 0) messageList.add(result);
                 } catch (Exception e) {
-                    System.out.println("Input could not be encoded.");
+                    System.out.print("Input could not be encoded: ");
+                    System.out.println(e.getMessage());
                 }
             } else if (option.equals("d")) {
-                System.out.print("Enter a message: ");
-                String input = scanner.nextLine();
+                for (int i = 0; i < messageList.size(); i++) {
+                    Message message = messageList.get(i);
+                    System.out.print("[" + i + "]: ");
+                    System.out.print(message.isEncrypted() ? "crypt" : "plain");
+                    System.out.print("@" + message.hashCode());
+                    System.out.println(" - " + message);
+                }
+
+                System.out.print("Enter a message or reference number (m0, m1, etc.): ");
+                Message inputMsg = new Message(scanner.nextLine(), true);
+                int referenceUsed = -1;
+
+                try {
+                    int n = Integer.parseInt(inputMsg.toString().substring(1));
+                    if (n >= 0 && n < messageList.size() && inputMsg.toString().charAt(0) == 'm') {
+                        inputMsg = messageList.get(n);
+                        referenceUsed = n;
+                    }
+                } catch (Exception e) {
+
+                }
 
                 System.out.print("Enter a password: ");
                 String password = scanner.nextLine();
 
                 try {
-                    Message result = algorithm.decrypt(new Message(input, true), algorithm.parsePassword(password));
+                    Message result = algorithm.decrypt(inputMsg, algorithm.parsePassword(password));
 
-                    System.out.print(input);
+                    System.out.print((referenceUsed >= 0 ? "[m" + referenceUsed + "]: " : "") + inputMsg);
                     System.out.print(" >> [decryption] >> ");
                     System.out.println(result);
+
+                    if (referenceUsed < 0) messageList.add(result);
                 } catch (Exception e) {
-                    System.out.println("Input could not be decoded.");
+                    System.out.print("Input could not be decoded: ");
+                    System.out.println(e.getMessage());
                 }
             } else if (option.equals("q")) {
                 System.out.println("bye :(");
